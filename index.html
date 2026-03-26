@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry Aneesha :( </title>
+<style>
+body { margin: 0; font-family: 'Comic Sans MS', cursive; background: linear-gradient(135deg, #ffd6e0, #ffe9f0); overflow: hidden; }
+
+#intro { position: fixed; inset: 0; background: black; color: red; display: flex; justify-content: center; align-items: center; font-size: 30px; letter-spacing: 3px; z-index: 999; cursor: pointer; }
+
+.container { display: none; justify-content: center; align-items: center; height: 100vh; text-align: center; }
+.card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 420px; animation: float 3s ease-in-out infinite; z-index: 2; }
+
+@keyframes float { 0% { transform: translateY(0);} 50% { transform: translateY(-10px);} 100% { transform: translateY(0);} }
+
+/* GLOWING NAME */
+.name {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ff4d6d;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+@keyframes glow {
+    from { text-shadow: 0 0 5px #ff4d6d, 0 0 10px #ff85a2; }
+    to { text-shadow: 0 0 15px #ff4d6d, 0 0 25px #ff85a2, 0 0 35px #ffb3c6; }
+}
+
+h1 { color: #ff4d6d; font-size: 18px; }
+p { color: #555; }
+
+button { margin: 10px; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+#yesBtn { background: #ff85a2; color: white; }
+#noBtn { background: #ccc; }
+button:hover { transform: scale(1.1); }
+
+.emoji { font-size: 50px; margin-top: 10px; }
+
+.heart { position: absolute; bottom: -20px; color: #ff6b81; font-size: 20px; animation: floatUp linear infinite; }
+@keyframes floatUp { from { transform: translateY(0) scale(1); opacity: 1;} to { transform: translateY(-100vh) scale(1.5); opacity: 0;} }
+
+.burstHeart { position: absolute; font-size: 30px; animation: explode 1s ease-out forwards; }
+@keyframes explode { from { transform: scale(0); opacity:1; } to { transform: translate(var(--x), var(--y)) scale(2); opacity:0; } }
+</style>
+</head>
+<body>
+
+<div id="intro">Tap to enter my apology 💔</div>
+
+<div class="container" id="mainContent">
+<div class="card">
+
+<div class="name"> Hello Aneesha 💖</div>
+
+<h1 id="apologyText"></h1>
+
+<p>I messed up like Loki  but I wanna fix things like a true Avenger </p>
+<p>Will you forgive me? </p>
+
+<button id="yesBtn">Yes </button>
+<button id="noBtn">No </button>
+
+<div id="response"></div>
+</div>
+</div>
+
+<!-- SOFT ROMANTIC BACKGROUND SOUND -->
+<audio id="bgMusic" src="romantic-soft.mp3" loop preload="auto"></audio>
+
+<script>
+const intro = document.getElementById('intro');
+const mainContent = document.getElementById('mainContent');
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const response = document.getElementById('response');
+const apologyText = document.getElementById('apologyText');
+const bgMusic = document.getElementById('bgMusic');
+
+const message = `hey… im really sorry about yesterday. i know i should’ve given you time, but i’m here because i just wanna comfort you...
+
+this link maybe a bit ugly sebab first time i buat 
+
+im sorry for mentioning other girls when u were upset. that was wrong.
+
+i really choose you. kalau nda, i wouldn't do all this.
+
+sorry kalau i clingy... this is just me when i care.
+
+once again… i’m really sorry 💔`;
+
+function typeText(text, element) {
+    let i = 0;
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, 25);
+        }
+    }
+    typing();
+}
+
+intro.addEventListener('click', () => {
+    intro.style.display = 'none';
+    mainContent.style.display = 'flex';
+    typeText(message, apologyText);
+
+    // start soft romantic music
+    bgMusic.volume = 0.2; // very soft
+    bgMusic.play();
+});
+
+noBtn.addEventListener('click', () => {
+    response.innerHTML = "<div class='emoji'>😢</div><p>Please don’t do this like Ice King 😭... please press yes...</p>";
+    noBtn.style.position = 'absolute';
+    noBtn.style.top = Math.random() * 80 + '%';
+    noBtn.style.left = Math.random() * 80 + '%';
+});
+
+function heartExplosion() {
+    for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('burstHeart');
+        heart.innerHTML = '💖';
+        heart.style.left = '50%';
+        heart.style.top = '50%';
+        heart.style.setProperty('--x', (Math.random()*400-200)+'px');
+        heart.style.setProperty('--y', (Math.random()*400-200)+'px');
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),1000);
+    }
+}
+
+yesBtn.addEventListener('click', () => {
+    response.innerHTML = "<div class='emoji'>🥰</div><p>You just made me the happiest person alive ❤️</p>";
+    heartExplosion();
+});
+
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '💖';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
